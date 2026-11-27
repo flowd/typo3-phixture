@@ -1,0 +1,42 @@
+page = PAGE
+page {
+    10 = TEXT
+    10 {
+        field = title
+        htmlSpecialChars = 1
+        wrap = <h1>|</h1>
+    }
+
+    20 = CONTENT
+    20 {
+        table = tt_content
+        select.orderBy = sorting
+        wrap = <main>|</main>
+        renderObj = COA
+        renderObj {
+            wrap = <section>|</section>
+            10 = TEXT
+            10 {
+                field = header
+                htmlSpecialChars = 1
+                dataWrap = <h2 id="c{field:uid}">|</h2>
+            }
+
+            20 = TEXT
+            20 {
+                field = bodytext
+                htmlSpecialChars = 1
+                required = 1
+                wrap = <p>|</p>
+            }
+        }
+    }
+
+    30 = TEXT
+    30 {
+        data = request:headers|x-phixture|0
+        htmlSpecialChars = 1
+        required = 1
+        wrap = <aside>|</aside>
+    }
+}

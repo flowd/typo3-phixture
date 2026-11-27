@@ -1,0 +1,19 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/saschaegerer/phpstan-typo3/extension.neon
+parameters:
+    tmpDir: ./var/phpstan
+    level: 8
+    paths:
+        - Classes/
+        - Tests/
+    # ORIGINAL_ROOT is defined by the bootstrap of typo3/testing-framework, not by code PHPStan reads
+    bootstrapFiles:
+        - Tests/phpstan-bootstrap.php
+    dynamicConstantNames:
+        - ORIGINAL_ROOT
+    excludePaths:
+        - Tests/Fixtures/Packages/*/Configuration/TCA/*

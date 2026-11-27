@@ -1,0 +1,19 @@
+# Composer
+/vendor
+/composer.lock
+
+# TYPO3 / testing-framework
+/.Build
+/public
+/var
+
+# Tool caches
+/.php-cs-fixer.cache
+/.phpunit.cache
+/phpunit.xml
+
+# IDE / OS
+/.idea
+/.vscode
+/.fleet
+.DS_Store

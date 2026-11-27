@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        backupGlobals="true"
+        bootstrap="vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
+        colors="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        failOnWarning="true"
+        failOnRisky="true"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        displayDetailsOnPhpunitDeprecations="true"
+        cacheDirectory=".phpunit.cache"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd">
+
+    <testsuites>
+        <testsuite name="Unit tests">
+            <directory>Tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="Functional tests">
+            <directory>Tests/Functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory>Classes/</directory>
+        </include>
+    </source>
+
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="memory_limit" value="1G"/>
+        <env name="TYPO3_CONTEXT" value="Testing"/>
+        <env name="typo3DatabaseDriver" value="pdo_sqlite"/>
+    </php>
+
+</phpunit>

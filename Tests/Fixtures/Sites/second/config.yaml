@@ -1,0 +1,5 @@
+imports:
+    - { resource: '../_shared/config.yaml' }
+
+rootPageId: 100
+base: 'https://second.phixture.test/'

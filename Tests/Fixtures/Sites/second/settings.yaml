@@ -1,0 +1,4 @@
+phixture:
+    pageIds:
+        storage:
+            records: 30

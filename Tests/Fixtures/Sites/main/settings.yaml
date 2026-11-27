@@ -1,0 +1,7 @@
+phixture:
+    pageIds:
+        footer: 20
+        notConfigured: 0
+        storage:
+            records: 30
+    itemsPerPage: 10

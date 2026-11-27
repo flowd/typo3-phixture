@@ -1,0 +1,65 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    check:
+        name: PHP ${{ matrix.php }}, TYPO3 ${{ matrix.typo3 }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ['8.3', '8.4', '8.5', '8.6']
+                typo3: ['^13.4', '^14.3']
+        steps:
+            # third-party actions are pinned to a commit: a tag can be moved
+            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+              with:
+                  persist-credentials: false
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: dom, gd, pdo_sqlite, intl, zip
+                  coverage: none
+
+            - name: Install dependencies
+              run: >
+                  composer require --no-interaction --no-progress --update-with-all-dependencies
+                  "typo3/cms-core:${{ matrix.typo3 }}"
+                  "typo3/cms-backend:${{ matrix.typo3 }}"
+                  "typo3/cms-frontend:${{ matrix.typo3 }}"
+
+            - name: Lint
+              run: composer check:lint
+
+            - name: Coding guidelines
+              run: composer ci:check:cgl
+
+            - name: PHPStan
+              run: composer ci:check:phpstan
+
+            - name: Unit tests
+              run: composer test:unit
+
+            - name: Functional tests
+              run: composer test:functional
+
+    # single stable check name for branch protection, independent of the matrix
+    ci-ok:
+        name: CI OK
+        # without always() a failed matrix skips this job, and skipped counts as passed
+        if: always()
+        needs: [check]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Require all matrix jobs to succeed
+              env:
+                  RESULT: ${{ needs.check.result }}
+              run: test "$RESULT" = "success"
